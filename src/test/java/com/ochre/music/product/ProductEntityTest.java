@@ -25,16 +25,7 @@ public class ProductEntityTest {
     public void when_A_Valid_Product_Is_Created_then_Product_fields_should_match(){
 
         // given
-        ProductEntity product = ProductEntity.builder()
-                .title("Gravity")
-                .distribution(ProductEntity.Distribution.PHYSICAL)
-                .mediaFormat(ProductEntity.MediaFormat.CD)
-                .price(ProductEntity.Price.GBP)
-                .releaseDate(Calendar.getInstance())
-                .productGroupTitle("James Brown")
-                .productGroupReleaseDate(Calendar.getInstance())
-                .tags("tag1, tag2")
-                .build();
+        ProductEntity product = buildProduct();
 
         // when
         ProductEntity created = repository.save(product);
@@ -49,19 +40,8 @@ public class ProductEntityTest {
 
         // given
 
-        ProductEntity product = ProductEntity.builder()
-                .title("Gravity")
-                .distribution(ProductEntity.Distribution.PHYSICAL)
-                .mediaFormat(ProductEntity.MediaFormat.CD)
-                .price(ProductEntity.Price.GBP)
-                .releaseDate(Calendar.getInstance())
-                .productGroupTitle("James Brown")
-                .productGroupReleaseDate(Calendar.getInstance())
-                .tags("tag1, tag2")
-                .build();
-
-        entityManager.persist(product);
-        entityManager.flush();
+        ProductEntity product = buildProduct();
+        createOneProduct(product);
 
         // when
 
@@ -77,19 +57,8 @@ public class ProductEntityTest {
 
         // given
 
-        ProductEntity product = ProductEntity.builder()
-                .title("Gravity")
-                .distribution(ProductEntity.Distribution.PHYSICAL)
-                .mediaFormat(ProductEntity.MediaFormat.CD)
-                .price(ProductEntity.Price.GBP)
-                .releaseDate(Calendar.getInstance())
-                .productGroupTitle("James Brown")
-                .productGroupReleaseDate(Calendar.getInstance())
-                .tags("tag1, tag2")
-                .build();
-
-        entityManager.persist(product);
-        entityManager.flush();
+        ProductEntity product = buildProduct();
+        createOneProduct(buildProduct());
 
         // when
 
@@ -106,7 +75,19 @@ public class ProductEntityTest {
 
         // given
 
-        ProductEntity product = ProductEntity.builder()
+        ProductEntity product = buildProduct();
+        createOneProduct(product);
+
+        // when
+
+        List<ProductEntity> listOfProducts = repository.findAll();
+
+        // then
+        assertEquals(product, listOfProducts.get(0));
+    }
+
+    private ProductEntity buildProduct(){
+        return ProductEntity.builder()
                 .title("Gravity")
                 .distribution(ProductEntity.Distribution.PHYSICAL)
                 .mediaFormat(ProductEntity.MediaFormat.CD)
@@ -116,15 +97,10 @@ public class ProductEntityTest {
                 .productGroupReleaseDate(Calendar.getInstance())
                 .tags("tag1, tag2")
                 .build();
+    }
 
+    private void createOneProduct(ProductEntity product){
         entityManager.persist(product);
         entityManager.flush();
-
-        // when
-
-        List<ProductEntity> listOfProducts = repository.findAll();
-
-        // then
-        assertEquals(product, listOfProducts.get(0));
     }
 }
