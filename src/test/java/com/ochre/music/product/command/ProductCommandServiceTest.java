@@ -80,7 +80,7 @@ class ProductCommandServiceTest {
 
             // given
             ProductRequest request = ProductRequest.builder()
-                    .id(BigInteger.ONE)
+                    //.id(BigInteger.ONE)
                     .title("New Title")
                     .distribution("Physical")
                     .mediaFormat("CASSETE")
@@ -89,7 +89,7 @@ class ProductCommandServiceTest {
                     .build();
 
             ProductResponse mappedResponse = ProductResponse.builder()
-                    .id(request.getId())
+                    //.id(request.getId())
                     .title(request.getTitle())
                     .distribution(request.getDistribution())
                     .mediaFormat(request.getMediaFormat())
@@ -105,7 +105,7 @@ class ProductCommandServiceTest {
             when(repository.save(any())).thenReturn(updatedProduct);
 
             // when
-            ProductResponse response = service.update(request);
+            ProductResponse response = service.update(updatedProduct.getId(), request);
 
             // then
             assertEquals(request.getTitle(), response.getTitle());

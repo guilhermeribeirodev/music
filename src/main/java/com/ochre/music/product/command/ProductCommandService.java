@@ -8,6 +8,8 @@ import com.ochre.music.product.write.ProductWriteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigInteger;
+
 @Service
 public class ProductCommandService {
 
@@ -28,9 +30,9 @@ public class ProductCommandService {
         return ProductResponse.builder().id(created.getId()).build();
     }
 
-    public ProductResponse update(ProductRequest productRequest){
+    public ProductResponse update(BigInteger id, ProductRequest productRequest){
 
-        ProductEntity existingProduct = writeRepository.findById(productRequest.getId()).orElseThrow();
+        ProductEntity existingProduct = writeRepository.findById(id).orElseThrow();
         ProductEntity updatedProduct = mapper.toEntity(productRequest);
         updatedProduct.setId(existingProduct.getId());
 

@@ -2,6 +2,8 @@ package com.ochre.music.product.query;
 
 import com.ochre.music.product.ProductRequest;
 import com.ochre.music.product.ProductResponse;
+import io.swagger.v3.oas.annotations.Operation;
+import jakarta.annotation.security.RolesAllowed;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Optional;
 
 @RestController
-@RequestMapping( "/productQuery")
+@RequestMapping
 public class ProductQueryController {
 
     private final ProductQueryService service;
@@ -21,7 +23,9 @@ public class ProductQueryController {
         this.service = service;
     }
 
-    @GetMapping()
+    @Operation( summary = "Retrieve products by query params", description = "Retrieve products by query params" )
+    @RolesAllowed( {"ADMIN","USER"} )
+    @GetMapping("/product")
     public ResponseEntity<ProductResponse> findProductByParam(
             @RequestParam("title") Optional<String> title,
             @RequestParam("groupTitle") Optional<String> groupTitle){
@@ -37,7 +41,5 @@ public class ProductQueryController {
         }else {
             return ResponseEntity.badRequest().body(null);
         }
-
-
     }
 }

@@ -46,7 +46,7 @@ class ProductQueryControllerTest {
 
             // then
             mockMvc.perform(MockMvcRequestBuilders
-                            .get("/productQuery?title={title}", "Title")
+                            .get("/product?title={title}", "Title")
                             .contentType(MediaType.APPLICATION_JSON))// then
                     .andExpect(status().isOk())
                     .andExpect(jsonPath("$.title").value(stubResponse.getTitle()))
@@ -61,7 +61,7 @@ class ProductQueryControllerTest {
 
             // then
             mockMvc.perform(MockMvcRequestBuilders
-                            .get("/productQuery?title={title}", invalidTitle)
+                            .get("/product?title={title}", invalidTitle)
                             .contentType(MediaType.APPLICATION_JSON))
                     .andExpect(status().isBadRequest());
         }
@@ -76,7 +76,7 @@ class ProductQueryControllerTest {
 
             // then
             mockMvc.perform(MockMvcRequestBuilders
-                            .get("/productQuery?groupTitle={groupTitle}", stub.getProductGroupTitle())
+                            .get("/product?groupTitle={groupTitle}", stub.getProductGroupTitle())
                             .contentType(MediaType.APPLICATION_JSON))// then
                     .andExpect(status().isOk())
                     .andExpect(jsonPath("$.title").value(stub.getTitle()))

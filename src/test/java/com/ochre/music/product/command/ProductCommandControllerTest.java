@@ -4,6 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ochre.music.product.ProductEntity;
 import com.ochre.music.product.ProductRequest;
 import com.ochre.music.product.ProductResponse;
+import com.ochre.music.product.vo.Price;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,9 +19,12 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.Calendar;
 
 import static org.hamcrest.Matchers.is;
+import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -35,6 +40,13 @@ class ProductCommandControllerTest {
     private MockMvc mockMvc;
 
     private final ObjectMapper jsonMapper = new ObjectMapper();
+
+    final Calendar futureDate = Calendar.getInstance();
+
+    @BeforeEach
+    void setUp(){
+        futureDate.add(Calendar.MONTH,1);
+    }
 
     @Nested
     class CreateProductResource {
@@ -61,13 +73,14 @@ class ProductCommandControllerTest {
             final ProductRequest request = ProductRequest.builder()
                     .title("Title")
                     .productGroupTitle("Group Title")
+                    .releaseDate(futureDate)
                     .distribution(ProductEntity.Distribution.DIGITAL.name())
                     .mediaFormat(ProductEntity.MediaFormat.MP3.name())
                     .build();
 
             String json = jsonMapper.writeValueAsString(request);
 
-            Mockito.when(service.create(Mockito.any()))
+            Mockito.when(service.create(any()))
                     .thenReturn(ProductResponse.builder().id(BigInteger.ONE).build());
 
             // when
@@ -111,14 +124,17 @@ class ProductCommandControllerTest {
             // given
             final ProductRequest request = ProductRequest.builder()
                     .title("Title")
-                    .productGroupTitle("Group Title")
                     .distribution(ProductEntity.Distribution.DIGITAL.name())
                     .mediaFormat(ProductEntity.MediaFormat.MP3.name())
+                    .price(new Price(BigDecimal.TEN, Price.Currency.GBP))
+                    .releaseDate(futureDate)
+                    .productGroupTitle("Group Title")
+                    .productGroupReleaseDate(futureDate)
                     .build();
 
             String json = jsonMapper.writeValueAsString(request);
 
-            Mockito.when(service.update(Mockito.any()))
+            Mockito.when(service.update(any(), any()))
                     .thenReturn( ProductResponse.builder().id((BigInteger.ONE)).build());
 
             // when
