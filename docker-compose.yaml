@@ -35,4 +35,5 @@ services:
       - SPRING_DATASOURCE_PASSWORD=docker
       - SPRING_JPA_HIBERNATE_DDL_AUTO=create-drop
     depends_on:
-      - psql-db
+      - psql-db-read
+      - psql-db-write

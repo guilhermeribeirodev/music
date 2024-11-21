@@ -1,0 +1,67 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: Gui
+      preConditions:
+        - onFail: MARK_RAN
+          not:
+            tableExists:
+              tableName: product
+      changes:
+        - createTable:
+            tableName: product
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: title
+                  type: varchar(250)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: distribution
+                  type: varchar(250)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: mediaFormat
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: release_date
+                  type: date
+                  constraints:
+                    nullable: false
+              - column:
+                  name: group_title
+                  type: varchar(250)
+              - column:
+                  name: price
+                  type: currency
+              - column:
+                  name: tags
+                  type: text[]
+
+        - createTable:
+            tableName: product_tag
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(250)
+                  constraints:
+                    nullable: false
+
+

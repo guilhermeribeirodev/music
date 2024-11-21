@@ -4,4 +4,6 @@ import com.ochre.music.product.ProductEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ProductReadRepository extends JpaRepository<ProductEntity, Long> {
+
+    ProductEntity findProductEntitiesByTitle(String title);
 }

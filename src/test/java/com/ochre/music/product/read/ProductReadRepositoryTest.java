@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @ActiveProfiles("test")
-public class ProductReadRepositoryTest {
+class ProductReadRepositoryTest {
 
     @Autowired
     private TestEntityManager entityManager;
@@ -31,7 +31,7 @@ public class ProductReadRepositoryTest {
     }
 
     @Test
-    public void when_A_Product_Exists_then_Find_The_Product_With_Success(){
+    void when_A_Product_Exists_then_Find_The_Product_With_Success(){
 
         // given
         ProductEntity product = ProductHelperTest.buildProduct();

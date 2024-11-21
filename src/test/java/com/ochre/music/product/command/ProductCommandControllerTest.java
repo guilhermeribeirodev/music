@@ -1,6 +1,8 @@
-package com.ochre.music.product;
+package com.ochre.music.product.command;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ochre.music.product.ProductRequest;
+import com.ochre.music.product.ProductResponse;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,6 +16,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.math.BigInteger;
+
 import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -21,10 +25,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(SpringExtension.class)
 @WebMvcTest
 @AutoConfigureMockMvc(addFilters = false)
-class ProductControllerTest {
+class ProductCommandControllerTest {
 
-    @MockBean private ProductService service;
-    @Autowired private MockMvc mockMvc;
+    @MockBean
+    private ProductCommandService service;
+
+    @Autowired
+    private MockMvc mockMvc;
+
     private final ObjectMapper jsonMapper = new ObjectMapper();
 
     @Nested
@@ -34,7 +42,7 @@ class ProductControllerTest {
         void when_Post_Invalid_Values_then_Result_Error() throws Exception {
 
             // given
-            final ProductRequest request = new ProductRequest();
+            final ProductRequest request = ProductRequest.builder().title("").build();
             String json = jsonMapper.writeValueAsString(request);
 
             // when
@@ -47,17 +55,13 @@ class ProductControllerTest {
 
         @Test
         void when_Post_Valid_Values_then_Result_Success() throws Exception {
-//        final ProductRequest request = new ProductRequest(
-//                "Title", "PHYSICAL","CD",1.0d,
-//                Calendar.getInstance(), "p title", Calendar.getInstance(),
-//                "tags"
-//        );
+
             // given
-            final ProductRequest request = new ProductRequest("Title");
+            final ProductRequest request =  ProductRequest.builder().title("Title").productGroupTitle("Group Title").build();
             String json = jsonMapper.writeValueAsString(request);
 
             Mockito.when(service.create(Mockito.any()))
-                    .thenReturn(new ProductResponse(1L));
+                    .thenReturn(ProductResponse.builder().id(BigInteger.ONE).build());
 
             // when
             mockMvc.perform(MockMvcRequestBuilders
@@ -77,7 +81,7 @@ class ProductControllerTest {
         void when_Put_Invalid_Values_then_Result_Error() throws Exception {
 
             // given
-            final ProductRequest invalidRequest = new ProductRequest();
+            final ProductRequest invalidRequest = ProductRequest.builder().title("").build();
             String json = jsonMapper.writeValueAsString(invalidRequest);
 
             // when
@@ -92,11 +96,11 @@ class ProductControllerTest {
         void when_Put_Valid_Values_then_Result_Success() throws Exception {
 
             // given
-            final ProductRequest request = new ProductRequest("Title 1");
+            final ProductRequest request = ProductRequest.builder().title("Title 1").build();
             String json = jsonMapper.writeValueAsString(request);
 
             Mockito.when(service.update(Mockito.any()))
-                    .thenReturn(new ProductResponse(1L));
+                    .thenReturn( ProductResponse.builder().id((BigInteger.ONE)).build());
 
             // when
             mockMvc.perform(MockMvcRequestBuilders
@@ -109,5 +113,4 @@ class ProductControllerTest {
         }
 
     }
-
 }

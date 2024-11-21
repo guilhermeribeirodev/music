@@ -30,4 +30,11 @@ public class MusicApplication {
 		bean.setValidationMessageSource(messageSource());
 		return bean;
 	}
+
+	@Bean
+	public ModelMapper getModelMapper() {
+		var mapper = new ModelMapper();
+		mapper.getConfiguration().setSkipNullEnabled(true);
+		return mapper;
+	}
 }

@@ -5,7 +5,6 @@ import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import org.junit.jupiter.api.Test;
 
-import java.util.Calendar;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -20,22 +19,22 @@ class ProductRequestTest {
 
         ProductRequest request = createRequest();
         Set<ConstraintViolation<ProductRequest>> errors = validator.validate(request);
-        System.out.println(errors);
         assertTrue(errors.isEmpty(), "Should not have validation errors");
     }
 
     @Test
     public void when_Product_Request_Is_Not_Valid_then_Show_Errors(){
 
-        ProductRequest request = new ProductRequest();
+        ProductRequest request = ProductRequest.builder().title("").build();
         Set<ConstraintViolation<ProductRequest>> errors = validator.validate(request);
-        System.out.println(errors);
-        assertEquals(1, errors.size());
+        assertEquals(5, errors.size());
     }
 
     private static ProductRequest createRequest(){
-        Calendar date = Calendar.getInstance();
-        date.set(Calendar.YEAR, 2026);
-        return new ProductRequest("Title");
+        return ProductRequest.builder()
+                .title("Title")
+                .distribution(ProductEntity.Distribution.PHYSICAL.name())
+                .mediaFormat(ProductEntity.MediaFormat.CD.name())
+                .build();
     }
 }

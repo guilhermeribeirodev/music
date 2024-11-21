@@ -1,5 +1,7 @@
-package com.ochre.music.product;
+package com.ochre.music.product.command;
 
+import com.ochre.music.product.ProductRequest;
+import com.ochre.music.product.ProductResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -13,12 +15,12 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 
 @RestController
-@RequestMapping(value = "/product")
-public class ProductController {
+@RequestMapping( "/product")
+public class ProductCommandController {
 
-    private final ProductService service;
+    private final ProductCommandService service;
 
-    public ProductController(@Autowired ProductService service) {
+    public ProductCommandController(@Autowired ProductCommandService service) {
         this.service = service;
     }
 
@@ -31,7 +33,7 @@ public class ProductController {
         return ResponseEntity.created(URI.create(String.valueOf(response.getId()))).body(response);
     }
 
-    @PutMapping("{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<ProductResponse> updateProduct(
             @PathVariable("id") Long id, @RequestBody @Valid ProductRequest request) {
         ProductResponse response = service.update(request);
