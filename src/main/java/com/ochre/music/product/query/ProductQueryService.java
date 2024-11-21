@@ -20,4 +20,8 @@ public class ProductQueryService {
         ProductEntity found = readRepository.findProductEntitiesByTitle(title);
         return ProductResponse.builder().id(found.getId()).title(found.getTitle()).build();
     }
+
+    public ProductResponse findByGroupTitle(String productGroupTitle) {
+        return null;
+    }
 }

@@ -1,6 +1,7 @@
 package com.ochre.music.product.command;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ochre.music.product.ProductEntity;
 import com.ochre.music.product.ProductRequest;
 import com.ochre.music.product.ProductResponse;
 import org.junit.jupiter.api.Nested;
@@ -23,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(SpringExtension.class)
-@WebMvcTest
+@WebMvcTest(ProductCommandController.class)
 @AutoConfigureMockMvc(addFilters = false)
 class ProductCommandControllerTest {
 
@@ -57,7 +58,13 @@ class ProductCommandControllerTest {
         void when_Post_Valid_Values_then_Result_Success() throws Exception {
 
             // given
-            final ProductRequest request =  ProductRequest.builder().title("Title").productGroupTitle("Group Title").build();
+            final ProductRequest request = ProductRequest.builder()
+                    .title("Title")
+                    .productGroupTitle("Group Title")
+                    .distribution(ProductEntity.Distribution.DIGITAL.name())
+                    .mediaFormat(ProductEntity.MediaFormat.MP3.name())
+                    .build();
+
             String json = jsonMapper.writeValueAsString(request);
 
             Mockito.when(service.create(Mockito.any()))
@@ -81,7 +88,13 @@ class ProductCommandControllerTest {
         void when_Put_Invalid_Values_then_Result_Error() throws Exception {
 
             // given
-            final ProductRequest invalidRequest = ProductRequest.builder().title("").build();
+            final ProductRequest invalidRequest = ProductRequest.builder()
+                    .title("")
+                    .productGroupTitle("Group Title")
+                    .distribution(ProductEntity.Distribution.DIGITAL.name())
+                    .mediaFormat(ProductEntity.MediaFormat.MP3.name())
+                    .build();
+
             String json = jsonMapper.writeValueAsString(invalidRequest);
 
             // when
@@ -96,7 +109,13 @@ class ProductCommandControllerTest {
         void when_Put_Valid_Values_then_Result_Success() throws Exception {
 
             // given
-            final ProductRequest request = ProductRequest.builder().title("Title 1").build();
+            final ProductRequest request = ProductRequest.builder()
+                    .title("Title")
+                    .productGroupTitle("Group Title")
+                    .distribution(ProductEntity.Distribution.DIGITAL.name())
+                    .mediaFormat(ProductEntity.MediaFormat.MP3.name())
+                    .build();
+
             String json = jsonMapper.writeValueAsString(request);
 
             Mockito.when(service.update(Mockito.any()))

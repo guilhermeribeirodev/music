@@ -26,8 +26,18 @@ public class ProductQueryController {
             @RequestParam("title") Optional<String> title,
             @RequestParam("groupTitle") Optional<String> groupTitle){
 
-        ProductRequest request =  ProductRequest.builder().title(title.get()).build();
-        ProductResponse response = service.findByTitle(request.getTitle());
-        return ResponseEntity.ok(response);
+        if(title.isPresent() && title.get().matches("^[A-Za-z].*")){
+            ProductRequest request =  ProductRequest.builder().title(title.get()).build();
+            ProductResponse response = service.findByTitle(request.getTitle());
+            return ResponseEntity.ok(response);
+        }else if(groupTitle.isPresent() && groupTitle.get().matches(".*")){
+            ProductRequest request =  ProductRequest.builder().productGroupTitle(groupTitle.get()).build();
+            ProductResponse response = service.findByGroupTitle(request.getProductGroupTitle());
+            return ResponseEntity.ok(response);
+        }else {
+            return ResponseEntity.badRequest().body(null);
+        }
+
+
     }
 }
