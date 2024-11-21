@@ -1,18 +1,16 @@
 package com.ochre.music.product;
 
-import com.ochre.music.product.write.ProductWriteEntity;
-
 import java.util.Calendar;
 
 public class ProductHelperTest {
 
-     public static ProductWriteEntity buildProduct(){
-        return ProductWriteEntity.builder()
+     public static ProductEntity buildProduct(){
+        return ProductEntity.builder()
                 //.id(1L)
                 .title("Gravity")
-                .distribution(ProductWriteEntity.Distribution.PHYSICAL)
-                .mediaFormat(ProductWriteEntity.MediaFormat.CD)
-                .price(ProductWriteEntity.Price.GBP)
+                .distribution(ProductEntity.Distribution.PHYSICAL)
+                .mediaFormat(ProductEntity.MediaFormat.CD)
+                .price(ProductEntity.Price.GBP)
                 .releaseDate(Calendar.getInstance())
                 .productGroupTitle("James Brown")
                 .productGroupReleaseDate(Calendar.getInstance())

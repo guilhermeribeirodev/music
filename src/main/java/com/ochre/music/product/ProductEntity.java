@@ -1,4 +1,4 @@
-package com.ochre.music.product.write;
+package com.ochre.music.product;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -11,7 +11,7 @@ import java.util.Calendar;
 @AllArgsConstructor
 @Getter
 @EqualsAndHashCode
-public class ProductWriteEntity {
+public class ProductEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -27,7 +27,7 @@ public class ProductWriteEntity {
     private Calendar productGroupReleaseDate;
     private String tags;
 
-    public ProductWriteEntity() {
+    public ProductEntity() {
 
     }
 

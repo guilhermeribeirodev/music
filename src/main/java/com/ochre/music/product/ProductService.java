@@ -1,11 +1,8 @@
 package com.ochre.music.product;
 
-import com.ochre.music.product.write.ProductWriteEntity;
 import com.ochre.music.product.write.ProductWriteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Calendar;
 
 @Service
 public class ProductService {
@@ -18,7 +15,7 @@ public class ProductService {
 
     public ProductResponse create(ProductRequest productRequest) {
 
-        ProductWriteEntity writeEntity = ProductWriteEntity.builder()
+        ProductEntity writeEntity = ProductEntity.builder()
                 .title(productRequest.getTitle())
 //                .distribution(ProductWriteEntity.Distribution.PHYSICAL)
 //                .mediaFormat(ProductWriteEntity.MediaFormat.CD)
@@ -29,8 +26,12 @@ public class ProductService {
 //                .tags("tag1, tag2")
                 .build();
 
-        ProductWriteEntity created = writeRepository.save(writeEntity);
+        ProductEntity created = writeRepository.save(writeEntity);
 
         return new ProductResponse(created.getId());
+    }
+
+    public ProductResponse update(ProductRequest productRequest){
+        return null;
     }
 }
