@@ -1,24 +1,22 @@
-package com.ochre.music.product;
+package com.ochre.music.product.write;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
+import lombok.*;
 
 import java.util.Calendar;
 
 @Entity
 @Table(name = "product")
-@Builder
+@Builder()
 @AllArgsConstructor
 @Getter
 @EqualsAndHashCode
-public class ProductEntity {
+public class ProductWriteEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    @Setter
+    private Long id;
 
     private String title;
     private Distribution distribution;
@@ -29,19 +27,19 @@ public class ProductEntity {
     private Calendar productGroupReleaseDate;
     private String tags;
 
-    public ProductEntity() {
+    public ProductWriteEntity() {
 
     }
 
-    enum Distribution {
+    public enum Distribution {
         PHYSICAL, DIGITAL
     }
 
-    enum Price {
+    public enum Price {
         GBP, EUR, USD
     }
 
-    enum MediaFormat {
+    public enum MediaFormat {
         VINYL, CD, CASSETE, MP3, WAV, WAV24
     }
 
