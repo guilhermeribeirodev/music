@@ -5,6 +5,7 @@ import com.ochre.music.product.ProductResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.annotation.security.RolesAllowed;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,6 +27,7 @@ public class ProductQueryController {
     @Operation( summary = "Retrieve products by query params", description = "Retrieve products by query params" )
     @RolesAllowed( {"ADMIN","USER"} )
     @GetMapping("/product")
+    @Cacheable(value = "product", key = "#id")
     public ResponseEntity<ProductResponse> findProductByParam(
             @RequestParam("title") Optional<String> title,
             @RequestParam("groupTitle") Optional<String> groupTitle){

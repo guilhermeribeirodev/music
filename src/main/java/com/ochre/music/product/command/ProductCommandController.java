@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.ErrorResponse;
@@ -43,6 +44,7 @@ public class ProductCommandController {
                     content = {@Content(schema = @Schema(implementation = ErrorResponse.class))})})
     @RolesAllowed("ADMIN")
     @PutMapping("/product/{id}")
+    @CachePut(cacheNames = "product", key = "#id")
     public ResponseEntity<ProductResponse> updateProduct(
             @PathVariable("id") Long id, @RequestBody @Valid ProductRequest request) {
         ProductResponse response = service.update(BigInteger.valueOf(id), request);
