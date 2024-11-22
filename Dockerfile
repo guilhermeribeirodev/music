@@ -7,12 +7,9 @@ RUN gradle build --no-daemon
 # Stage 2: Runtime environment with JDK
 FROM openjdk:17-jdk-slim-buster AS builder
 
-RUN apt-get update -y
-RUN apt-get install -y binutils
+WORKDIR /my-project
+CMD ["./gradlew", "clean", "bootJar"]
+COPY build/libs/*.jar app.jar
 
-WORKDIR /app
-
-COPY . .
-
-RUN ./gradlew build -i --stacktrace
-RUN ./gradlew jlink -i --stacktrace
+#EXPOSE 8080
+ENTRYPOINT ["java", "-jar", "app.jar"]
